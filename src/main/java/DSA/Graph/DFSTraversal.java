@@ -40,7 +40,7 @@ public class DFSTraversal {
     public static int noOfProvinces(int mt[][]){
         int cnt = 0;
         int v = mt.length;
-        boolean vis[] = new boolean[v];
+           boolean vis[] = new boolean[v];
         for(int i=1;i<v;i++){
             if (!vis[i]) {
                 cnt++;

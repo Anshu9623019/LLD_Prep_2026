@@ -112,12 +112,11 @@ def start_tracker():
         return
 
     last_status = ""
-
     print(f"\n👀 Watching status every {CHECK_INTERVAL} second(s)...\n")
 
     while True:
         try:
-            # ✅ FIXED: Only search inside header to avoid picking up chat messages
+            # ✅ FIXED: Only read status from header — ignores chat messages
             status = ""
             try:
                 header = driver.find_element(By.XPATH, '//header')
@@ -134,7 +133,7 @@ def start_tracker():
             if status:
                 print(f"📡 Status: {status}        ", end="\r")
             else:
-                print(f"📡 Status: (not visible)        ", end="\r")
+                print(f"📡 Status: (not visible)   ", end="\r")
 
             # Came online
             if "online" in status and last_status != "online":

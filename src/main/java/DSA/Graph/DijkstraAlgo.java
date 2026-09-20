@@ -8,9 +8,9 @@ public class DijkstraAlgo {
 
     }
 
-    //Word ladder 2 : Check once again
+
     //Dijkstra's Algo : using Priority Queue
-    class Solution {
+    class Solution1 {
 
         static class Pair {
             int node, dist;
@@ -21,32 +21,32 @@ public class DijkstraAlgo {
             }
         }
 
-        public int[] dijkstra(int V, List<List<GraphReprasentation.Solution3.Solution.Pair>> adj, int src) {
+        public int[] dijkstra(int V, List<List<Solution1.Pair>> adj, int src) {
 
             int[] dist = new int[V];
             Arrays.fill(dist, Integer.MAX_VALUE);
 
-            PriorityQueue<GraphReprasentation.Solution3.Solution.Pair> pq =
+            PriorityQueue<Solution1.Pair> pq =
                     new PriorityQueue<>((a, b) -> a.dist - b.dist);
 
             dist[src] = 0;
-            pq.add(new GraphReprasentation.Solution3.Solution.Pair(src, 0));
+            pq.add(new Solution1.Pair(src, 0));
 
             while (!pq.isEmpty()) {
 
-                GraphReprasentation.Solution3.Solution.Pair curr = pq.poll();
+                Solution1.Pair curr = pq.poll();
                 int node = curr.node;
                 int d = curr.dist;
 
                 if (d > dist[node]) continue; // Skip outdated entry
 
-                for (GraphReprasentation.Solution3.Solution.Pair neighbor : adj.get(node)) {
+                for (Solution1.Pair neighbor : adj.get(node)) {
 
                     int newDist = d + neighbor.dist;
 
                     if (newDist < dist[neighbor.node]) {
                         dist[neighbor.node] = newDist;
-                        pq.add(new GraphReprasentation.Solution3.Solution.Pair(neighbor.node, newDist));
+                        pq.add(new Solution1.Pair(neighbor.node, newDist));
                     }
                 }
             }
@@ -69,12 +69,12 @@ public class DijkstraAlgo {
                 }
             }
 
-            public int[] dijkstra(int V, List<List<GraphReprasentation.Solution3.Solution.Solution.Pair>> adj, int src) {
+            public int[] dijkstra(int V, List<List<Solution2.Pair>> adj, int src) {
 
                 int[] dist = new int[V];
                 Arrays.fill(dist, Integer.MAX_VALUE);
 
-                TreeSet<GraphReprasentation.Solution3.Solution.Solution.Pair> set = new TreeSet<>(
+                TreeSet<Solution2.Pair> set = new TreeSet<>(
                         (a, b) -> {
                             if (a.dist == b.dist)
                                 return a.node - b.node;
@@ -83,14 +83,14 @@ public class DijkstraAlgo {
                 );
 
                 dist[src] = 0;
-                set.add(new GraphReprasentation.Solution3.Solution.Solution.Pair(src, 0));
+                set.add(new Solution2.Pair(src, 0));
 
                 while (!set.isEmpty()) {
 
-                    GraphReprasentation.Solution3.Solution.Solution.Pair curr = set.pollFirst();
+                    Solution2.Pair curr = set.pollFirst();
                     int node = curr.node;
 
-                    for (GraphReprasentation.Solution3.Solution.Solution.Pair neighbor : adj.get(node)) {
+                    for (Solution2.Pair neighbor : adj.get(node)) {
 
                         int newDist = dist[node] + neighbor.dist;
 
@@ -98,12 +98,12 @@ public class DijkstraAlgo {
 
                             // Remove old pair if exists
                             if (dist[neighbor.node] != Integer.MAX_VALUE) {
-                                set.remove(new GraphReprasentation.Solution3.Solution.Solution.Pair(neighbor.node,
+                                set.remove(new Solution2.Pair(neighbor.node,
                                         dist[neighbor.node]));
                             }
 
                             dist[neighbor.node] = newDist;
-                            set.add(new GraphReprasentation.Solution3.Solution.Solution.Pair(neighbor.node, newDist));
+                            set.add(new Solution2.Pair(neighbor.node, newDist));
                         }
                     }
                 }
@@ -199,6 +199,8 @@ class Solution3 {
 }
 
 
+// Shortest Distance in BinaryMaze
+
 class Solution4 {
 
     static class Node {
@@ -234,9 +236,9 @@ class Solution4 {
 
         boolean[][] visited = new boolean[n][m];
 
-        Queue<GraphReprasentation.Solution4.Node> queue = new LinkedList<>();
+        Queue<Node> queue = new LinkedList<>();
 
-        queue.add(new GraphReprasentation.Solution4.Node(sr, sc, 0));
+        queue.add(new Node(sr, sc, 0));
         visited[sr][sc] = true;
 
         int[] dRow = {-1, 1, 0, 0};
@@ -244,7 +246,7 @@ class Solution4 {
 
         while (!queue.isEmpty()) {
 
-            GraphReprasentation.Solution4.Node current = queue.poll();
+            Node current = queue.poll();
 
             for (int i = 0; i < 4; i++) {
 
@@ -263,7 +265,7 @@ class Solution4 {
 
                     visited[newRow][newCol] = true;
 
-                    queue.add(new GraphReprasentation.Solution4.Node(newRow,
+                    queue.add(new Node(newRow,
                             newCol,
                             current.dist + 1));
                 }
@@ -274,7 +276,8 @@ class Solution4 {
     }
 }
 
-class Solution5 {
+// Path with minimum effort(good question)
+
 
     static class Cell {
         int row, col, effort;
@@ -296,10 +299,10 @@ class Solution5 {
         for (int[] row : dist)
             Arrays.fill(row, Integer.MAX_VALUE);
 
-        PriorityQueue<GraphReprasentation.Solution.Cell> pq =
+        PriorityQueue<Cell> pq =
                 new PriorityQueue<>((a, b) -> a.effort - b.effort);
 
-        pq.add(new GraphReprasentation.Solution.Cell(0, 0, 0));
+        pq.add(new Cell(0, 0, 0));
         dist[0][0] = 0;
 
         int[] dRow = {-1, 1, 0, 0};
@@ -307,7 +310,7 @@ class Solution5 {
 
         while (!pq.isEmpty()) {
 
-            GraphReprasentation.Solution.Cell current = pq.poll();
+            Cell current = pq.poll();
 
             int r = current.row;
             int c = current.col;
@@ -333,7 +336,7 @@ class Solution5 {
                     if (newEffort < dist[newRow][newCol]) {
 
                         dist[newRow][newCol] = newEffort;
-                        pq.add(new GraphReprasentation.Solution.Cell(newRow,
+                        pq.add(new Cell(newRow,
                                 newCol,
                                 newEffort));
                     }
@@ -343,152 +346,236 @@ class Solution5 {
 
         return 0;
     }
-}
+
+    //Cheapest flight with K stop
+
+    class Solution {
+        class Truple{
+            int tw,node,k;
+            Truple(int tw,int node,int k){
+                this.tw = tw;
+                this.node = node;
+                this.k = k;
+            }
+        }
+        class Pair{
+            int node, w;
+            Pair(int node,int w){
+                this.node = node;
+                this. w = w;
+            }
+        }
+        public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+            int dist[] = new int[n];
+            List<List<Pair>> adj = new ArrayList<>();
+            for(int i=0;i<n;i++){
+                adj.add(new ArrayList<>());
+            }
+            int m = flights.length;
+            for(int i=0;i<m;i++){
+                adj.get(flights[i][0]).add(new Pair(flights[i][1],flights[i][2]));
+            }
+            Queue<Truple> q = new LinkedList<>();
+            q.add(new Truple(0,src,0));
+            for(int i=0;i<n;i++){
+                dist[i] = Integer.MAX_VALUE;
+            }
+            dist[src] = 0;
+            while(!q.isEmpty()){
+                Truple peek = q.poll();
+                int node = peek.node;
+                int tk  = peek.k;
+                int tw = peek.tw;
+                if(tk>k){
+                    continue;
+                }
+                for(Pair ele : adj.get(node)){
+                    if(tw + ele.w<dist[ele.node] && tk<=k){
+                        dist[ele.node] = tw + ele.w;
+                        q.add(new Truple(tw+ele.w,ele.node,tk+1));
+                    }
+                }
+            }
+            return dist[dst]==Integer.MAX_VALUE ? -1 : dist[dst];
+        }
+    }
+
+
+
+    // Minimum multiplication to reach end
 
     class Solution6 {
 
-        static class Cell {
-            int row, col, effort;
+        class Pair {
+            int value;
+            int count;
 
-            Cell(int row, int col, int effort) {
-                this.row = row;
-                this.col = col;
-                this.effort = effort;
+            Pair(int value, int count) {
+                this.value = value;
+                this.count = count;
             }
         }
 
-        public int minimumEffortPath(int[][] heights) {
+        public int minimumMultiplications(
+                int[] arr,
+                int start,
+                int end) {
 
-            int n = heights.length;
-            int m = heights[0].length;
+            int MOD = 100000;
 
-            int[][] dist = new int[n][m];
+            boolean[] visited = new boolean[MOD];
 
-            for (int[] row : dist)
-                Arrays.fill(row, Integer.MAX_VALUE);
+            Queue<Pair> queue = new LinkedList<>();
 
-            PriorityQueue<GraphReprasentation.Solution.Solution.Cell> pq =
-                    new PriorityQueue<>((a, b) -> a.effort - b.effort);
+            queue.offer(new Pair(start, 0));
+            visited[start] = true;
 
-            pq.add(new GraphReprasentation.Solution.Solution.Cell(0, 0, 0));
-            dist[0][0] = 0;
+            while (!queue.isEmpty()) {
 
-            int[] dRow = {-1, 1, 0, 0};
-            int[] dCol = {0, 0, -1, 1};
+                Pair current = queue.poll();
 
-            while (!pq.isEmpty()) {
+                int value = current.value;
+                int count = current.count;
 
-                GraphReprasentation.Solution.Solution.Cell current = pq.poll();
+                if (value == end) {
+                    return count;
+                }
 
-                int r = current.row;
-                int c = current.col;
-                int effort = current.effort;
+                for (int multiplier : arr) {
 
-                // If reached destination
-                if (r == n - 1 && c == m - 1)
-                    return effort;
+                    int next =
+                            (value * multiplier) % MOD;
 
-                for (int i = 0; i < 4; i++) {
+                    if (!visited[next]) {
 
-                    int newRow = r + dRow[i];
-                    int newCol = c + dCol[i];
+                        visited[next] = true;
 
-                    if (newRow >= 0 && newRow < n &&
-                            newCol >= 0 && newCol < m) {
-
-                        int edgeWeight = Math.abs(
-                                heights[r][c] - heights[newRow][newCol]);
-
-                        int newEffort = Math.max(effort, edgeWeight);
-
-                        if (newEffort < dist[newRow][newCol]) {
-
-                            dist[newRow][newCol] = newEffort;
-                            pq.add(new GraphReprasentation.Solution.Solution.Cell(newRow,
-                                    newCol,
-                                    newEffort));
-                        }
+                        queue.offer(
+                                new Pair(
+                                        next,
+                                        count + 1
+                                )
+                        );
                     }
                 }
             }
 
-            return 0;
+            return -1;
         }
-
     }
 
-    // Number of ways to arrive at destination
+
+
+    // Number of ways to arrive destination
+
     class Solution7 {
 
-        static class Pair {
+        class Pair {
             int node;
-            long dist;
+            long distance;
 
-            Pair(int node, long dist) {
+            Pair(int node, long distance) {
                 this.node = node;
-                this.dist = dist;
+                this.distance = distance;
             }
         }
 
         public int countPaths(int n, int[][] roads) {
 
-            int MOD = 1000000007;
+            final long MOD = 1_000_000_007;
 
-            List<List<GraphReprasentation.Solution.Solution.Solution3.Pair>> adj = new ArrayList<>();
+            List<List<Pair>> adj = new ArrayList<>();
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++) {
                 adj.add(new ArrayList<>());
+            }
 
-            for (int[] r : roads) {
-                adj.get(r[0]).add(new GraphReprasentation.Solution.Solution.Solution3.Pair(r[1], r[2]));
-                adj.get(r[1]).add(new GraphReprasentation.Solution.Solution.Solution3.Pair(r[0], r[2]));
+            // Undirected graph
+            for (int[] road : roads) {
+
+                int u = road[0];
+                int v = road[1];
+                int time = road[2];
+
+                adj.get(u).add(
+                        new Pair(v, time)
+                );
+
+                adj.get(v).add(
+                        new Pair(u, time)
+                );
             }
 
             long[] dist = new long[n];
-            Arrays.fill(dist, Long.MAX_VALUE);
 
-            int[] ways = new int[n];
+            Arrays.fill(
+                    dist,
+                    Long.MAX_VALUE
+            );
 
-            PriorityQueue<GraphReprasentation.Solution.Solution.Solution3.Pair> pq =
-                    new PriorityQueue<>((a, b) -> Long.compare(a.dist, b.dist));
+            long[] ways = new long[n];
 
             dist[0] = 0;
             ways[0] = 1;
 
-            pq.add(new GraphReprasentation.Solution.Solution.Solution3.Pair(0, 0));
+            PriorityQueue<Pair> pq =
+                    new PriorityQueue<>(
+                            (a, b) ->
+                                    Long.compare(
+                                            a.distance,
+                                            b.distance
+                                    )
+                    );
+
+            pq.offer(new Pair(0, 0));
 
             while (!pq.isEmpty()) {
 
-                GraphReprasentation.Solution.Solution.Solution3.Pair curr = pq.poll();
-                int node = curr.node;
-                long d = curr.dist;
+                Pair current = pq.poll();
 
-                for (GraphReprasentation.Solution.Solution.Solution3.Pair nei : adj.get(node)) {
+                int node = current.node;
+                long distance = current.distance;
 
-                    int adjNode = nei.node;
-                    long weight = nei.dist;
+                // Ignore outdated entry
+                if (distance > dist[node]) {
+                    continue;
+                }
 
-                    long newDist = d + weight;
+                for (Pair edge : adj.get(node)) {
 
-                    if (newDist < dist[adjNode]) {
+                    int next = edge.node;
+                    long newDist =
+                            distance + edge.distance;
 
-                        dist[adjNode] = newDist;
-                        ways[adjNode] = ways[node];
+                    // Found a shorter path
+                    if (newDist < dist[next]) {
 
-                        pq.add(new GraphReprasentation.Solution.Solution.Solution3.Pair(adjNode, newDist));
-                    } else if (newDist == dist[adjNode]) {
+                        dist[next] = newDist;
 
-                        ways[adjNode] =
-                                (ways[adjNode] + ways[node]) % MOD;
+                        ways[next] = ways[node];
+
+                        pq.offer(
+                                new Pair(
+                                        next,
+                                        newDist
+                                )
+                        );
+                    }
+
+                    // Found another shortest path
+                    else if (newDist == dist[next]) {
+
+                        ways[next] =
+                                (ways[next] + ways[node])
+                                        % MOD;
                     }
                 }
             }
 
-            return ways[n - 1];
+            return (int) ways[n - 1];
         }
     }
 
-
 }
-        //End of Dijstra Pettern
+        //End of Dijkstra Pattern
 

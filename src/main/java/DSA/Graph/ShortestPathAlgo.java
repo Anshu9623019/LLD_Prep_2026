@@ -8,7 +8,7 @@ public class ShortestPathAlgo {
 
     }
 
-    //Belman ford Lado
+    //Bellman ford Lado
     //find Shortest path and detect cycle in negative graph.
     public int[] bellmanFord(int V, int[][] edges, int src) {
 
@@ -28,7 +28,6 @@ public class ShortestPathAlgo {
 
                 if (dist[u] != 1e8 &&
                         dist[u] + wt < dist[v]) {
-
                     dist[v] = dist[u] + wt;
                 }
             }
@@ -123,7 +122,7 @@ public int findTheCity(int n,
                 count++;
         }
 
-        if (count <= minCity) {
+        if (count <= minCity) { // return height index if twi city have same number of min neigh
 
             minCity = count;
             result = i;

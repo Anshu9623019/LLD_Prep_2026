@@ -21,20 +21,20 @@ public class DisjointSetMain {
 
     public class MST {
 
-        public static int prims(int V, ArrayList<ArrayList<GraphReprasentation.Solution.Pair4>> adj) {
+        public static int prims(int V, ArrayList<ArrayList<Pair4>> adj) {
 
             boolean[] vis = new boolean[V];
 
-            PriorityQueue<GraphReprasentation.Solution.Pair4> pq =
+            PriorityQueue<Pair4> pq =
                     new PriorityQueue<>((a, b) -> a.weight - b.weight);
 
-            pq.add(new GraphReprasentation.Solution.Pair4(0, 0));
+            pq.add(new Pair4(0, 0));
 
             int sum = 0;
 
             while (!pq.isEmpty()) {
 
-                GraphReprasentation.Solution.Pair4 curr = pq.poll();
+               Pair4 curr = pq.poll();
 
                 int node = curr.node;
                 int wt = curr.weight;
@@ -45,10 +45,10 @@ public class DisjointSetMain {
 
                 sum += wt;
 
-                for (GraphReprasentation.Solution.Pair4 p : adj.get(node)) {
+                for (Pair4 p : adj.get(node)) {
 
                     if (!vis[p.node])
-                        pq.add(new GraphReprasentation.Solution.Pair4(p.node, p.weight));
+                        pq.add(new Pair4(p.node, p.weight));
                 }
             }
 
@@ -364,6 +364,14 @@ public class DisjointSetMain {
             }
         }
 
+
+        // find largest island converting 0(water) to land(1)
+        // Use DSU with totalNode = row*col;, node = row*m + col, Use size based DSU, to find total number of node on
+        // a component
+        // Apply union of nodes with values 1
+        // try to changes any 0 and move all 4 four direction to find union and add size of component if
+    // node is in different component.
+
         public int largestIsland(int[][] grid) {
 
             int n = grid.length;
@@ -441,6 +449,14 @@ public class DisjointSetMain {
 
 
         // Most Stone removed with same row and column : VVI
+        // remove stones from same  col and row and keep only one stone
+        // so, if a component have total 4(k) stone the remove 3(k-1), stones (k-1)
+    // if total 5 component then remove (n - 5 ) stones , n = total stones, 5= total no of component,
+
+    // Apply DSU with row and col(row and col will be treated as node)
+    // 1,2,3,4,5(row),  col(6,7,8,9,10)
+    //
+
         public int removeStones(int[][] stones) {
 
             int maxRow = 0;

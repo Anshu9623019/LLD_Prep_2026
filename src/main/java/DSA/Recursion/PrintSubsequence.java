@@ -9,7 +9,6 @@ public class PrintSubsequence {
             ans.add(new ArrayList<>(temp)); // copy the list
             return;
         }
-
         // Include arr[i]
         temp.add(arr[i]);
         solve(arr, ans, temp, i + 1);

@@ -61,11 +61,11 @@ public class BFSTraversal {
     public static void bfs(int mt[][],int vis[][],int i,int j){
         int r[] = {1,-1,0,0};
         int c[] = {0,0,1,-1};
-        Queue<GraphReprasentation.Pair1> qe = new LinkedList<>();
-        qe.add(new GraphReprasentation.Pair1(i,j));
+        Queue<Pair1> qe = new LinkedList<>();
+        qe.add(new Pair1(i,j));
         vis[i][j] = 1;
         while (!qe.isEmpty()){
-            GraphReprasentation.Pair1 p = qe.poll();
+            Pair1 p = qe.poll();
             int r1 = p.r;
             int c1 = p.c;
             for (int k=0;k<4;k++){
@@ -73,7 +73,7 @@ public class BFSTraversal {
                 int c2 = c1 + c[k];
                 if(r2<mt.length && r2>=0 && c2<mt.length && c2>=0 && vis[r2][c2]!=1 && mt[r2][c2]==1){
                     vis[r2][c2] = 1;
-                    qe.add(new GraphReprasentation.Pair1(r2,c2));
+                    qe.add(new Pair1(r2,c2));
                 }
             }
         }
@@ -85,21 +85,21 @@ public class BFSTraversal {
         int c[] = {-1,1,0,0};
         int m = img.length;
         int n = img[0].length;
-        Queue<GraphReprasentation.Pair1> qe = new LinkedList<>();
-        qe.add(new GraphReprasentation.Pair1(sr,sc));
+        Queue<Pair1> qe = new LinkedList<>();
+        qe.add(new Pair1(sr,sc));
         int ans = 0;
         while (!qe.isEmpty()){
             int size = qe.size();
             ans++;
             for(int i=0;i<size;i++){
-                GraphReprasentation.Pair1 p = qe.poll();
+                Pair1 p = qe.poll();
                 int r1 = p.r;
                 int c1 = p.c;
                 for(int k=0;k<4;k++){
                     int r2 = r1 + r[k];
                     int c2 = c1 + c[k];
                     if(r2<m && r2>=0 && c2<n && c2>=0 && img[r2][c2]==1){
-                        qe.add(new GraphReprasentation.Pair1(r2,c2));
+                        qe.add(new Pair1(r2,c2));
                         img[r2][c2] = 2;
                     }
                 }
@@ -135,14 +135,14 @@ public class BFSTraversal {
         int[][] dist = new int[m][n];
         int[][] visited = new int[m][n];
 
-        Queue<GraphReprasentation.Pair2> queue = new LinkedList<>();
+        Queue<Pair2> queue = new LinkedList<>();
 
         // Step 1: Add all 1s to queue
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
 
                 if(grid[i][j] == 1){
-                    queue.add(new GraphReprasentation.Pair2(i, j));
+                    queue.add(new Pair2(i, j));
                     visited[i][j] = 1;
                     dist[i][j] = 0;
                 }
@@ -155,7 +155,7 @@ public class BFSTraversal {
         // Step 2: BFS
         while(!queue.isEmpty()){
 
-            GraphReprasentation.Pair2 p = queue.poll();
+            Pair2 p = queue.poll();
 
             for(int k = 0; k < 4; k++){
 
@@ -169,7 +169,7 @@ public class BFSTraversal {
                     visited[newR][newC] = 1;
                     dist[newR][newC] = dist[p.r][p.c] + 1;
 
-                    queue.add(new GraphReprasentation.Pair2(newR, newC));
+                    queue.add(new Pair2(newR, newC));
                 }
             }
         }

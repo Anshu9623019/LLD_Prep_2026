@@ -7,7 +7,6 @@ public class TopologicalSorting {
     public static void main(String[] args) {
 
     }
-
     //DFS TopoSort :
     public static List<Integer> topoSortDFS(int V, List<List<Integer>> adj){
 
@@ -300,7 +299,7 @@ public class TopologicalSorting {
 
         public int[] shortestPath(int N, int[][] edges, int src) {
 
-            List<List<GraphReprasentation.Solution3.Pair>> adj = new ArrayList<>();
+            List<List<Solution3.Pair>> adj = new ArrayList<>();
 
             for (int i = 0; i < N; i++) {
                 adj.add(new ArrayList<>());
@@ -308,7 +307,7 @@ public class TopologicalSorting {
 
             // Build graph
             for (int[] e : edges) {
-                adj.get(e[0]).add(new GraphReprasentation.Solution3.Pair(e[1], e[2]));
+                adj.get(e[0]).add(new Solution3.Pair(e[1], e[2]));
             }
 
             // Step 1: Topological sort
@@ -328,12 +327,10 @@ public class TopologicalSorting {
 
             // Step 3: Relax in topo order
             while (!stack.isEmpty()) {
-
                 int node = stack.pop();
-
                 if (dist[node] != Integer.MAX_VALUE) {
 
-                    for (GraphReprasentation.Solution3.Pair p : adj.get(node)) {
+                    for (Pair p : adj.get(node)) {
                         if (dist[node] + p.weight < dist[p.node]) {
                             dist[p.node] = dist[node] + p.weight;
                         }
@@ -345,20 +342,17 @@ public class TopologicalSorting {
         }
 
 
-        private void topoDFS(int node, List<List<GraphReprasentation.Solution3.Pair>> adj,
+        private void topoDFS(int node, List<List<Solution3.Pair>> adj,
                              boolean[] visited, Stack<Integer> stack) {
 
             visited[node] = true;
-
-            for (GraphReprasentation.Solution3.Pair p : adj.get(node)) {
+            for (Solution3.Pair p : adj.get(node)) {
                 if (!visited[p.node]) {
                     topoDFS(p.node, adj, visited, stack);
                 }
             }
-
             stack.push(node);
         }
-
     }
         //Shortest Path in undirected graph Using BFS
         public int[] shortestPath1(int N, int[][] edges, int src) {
@@ -397,6 +391,102 @@ public class TopologicalSorting {
 
             return dist;
         }
+
+
+    class Solution {
+
+        public String alienOrder(String[] words) {
+
+            // Graph
+            Map<Character, Set<Character>> adj = new HashMap<>();
+
+            // Indegree
+            Map<Character, Integer> indegree = new HashMap<>();
+
+            // Add every character
+            for (String word : words) {
+                for (char ch : word.toCharArray()) {
+                    adj.putIfAbsent(ch, new HashSet<>());
+                    indegree.putIfAbsent(ch, 0);
+                }
+            }
+
+            // Build graph
+            for (int i = 0; i < words.length - 1; i++) {
+
+                String word1 = words[i];
+                String word2 = words[i + 1];
+
+                int minLength = Math.min(word1.length(), word2.length());
+
+                boolean foundDifference = false;
+
+                for (int j = 0; j < minLength; j++) {
+
+                    char c1 = word1.charAt(j);
+                    char c2 = word2.charAt(j);
+
+                    if (c1 != c2) {
+
+                        // c1 comes before c2
+                        if (!adj.get(c1).contains(c2)) {
+
+                            adj.get(c1).add(c2);
+                            indegree.put(c2, indegree.get(c2) + 1);
+                        }
+
+                        foundDifference = true;
+                        break;
+                    }
+                }
+
+                // Invalid prefix case
+                if (!foundDifference &&
+                        word1.length() > word2.length()) {
+
+                    return "";
+                }
+            }
+
+            // Kahn's algorithm
+            Queue<Character> queue = new LinkedList<>();
+
+            for (char ch : indegree.keySet()) {
+
+                if (indegree.get(ch) == 0) {
+                    queue.offer(ch);
+                }
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            while (!queue.isEmpty()) {
+
+                char current = queue.poll();
+
+                result.append(current);
+
+                for (char next : adj.get(current)) {
+
+                    indegree.put(
+                            next,
+                            indegree.get(next) - 1
+                    );
+
+                    if (indegree.get(next) == 0) {
+                        queue.offer(next);
+                    }
+                }
+            }
+
+            // Cycle detection
+            if (result.length() != indegree.size()) {
+                return "";
+            }
+
+            return result.toString();
+        }
+    }
 
 
         //Word Ladder 1
@@ -454,7 +544,7 @@ public class TopologicalSorting {
 
         //Word ladder 2 : Check once again
         //Dijkstra's Algo : using Priority Queue
-        class Solution {
+        class Solution1 {
 
             static class Pair {
                 int node, dist;
@@ -465,32 +555,32 @@ public class TopologicalSorting {
                 }
             }
 
-            public int[] dijkstra(int V, List<List<GraphReprasentation.Solution3.Solution.Pair>> adj, int src) {
+            public int[] dijkstra(int V, List<List<Pair>> adj, int src) {
 
                 int[] dist = new int[V];
                 Arrays.fill(dist, Integer.MAX_VALUE);
 
-                PriorityQueue<GraphReprasentation.Solution3.Solution.Pair> pq =
+                PriorityQueue<Pair> pq =
                         new PriorityQueue<>((a, b) -> a.dist - b.dist);
 
                 dist[src] = 0;
-                pq.add(new GraphReprasentation.Solution3.Solution.Pair(src, 0));
+                pq.add(new Pair(src, 0));
 
                 while (!pq.isEmpty()) {
 
-                    GraphReprasentation.Solution3.Solution.Pair curr = pq.poll();
+                    Pair curr = pq.poll();
                     int node = curr.node;
                     int d = curr.dist;
 
                     if (d > dist[node]) continue; // Skip outdated entry
 
-                    for (GraphReprasentation.Solution3.Solution.Pair neighbor : adj.get(node)) {
+                    for (Pair neighbor : adj.get(node)) {
 
                         int newDist = d + neighbor.dist;
 
                         if (newDist < dist[neighbor.node]) {
                             dist[neighbor.node] = newDist;
-                            pq.add(new GraphReprasentation.Solution3.Solution.Pair(neighbor.node, newDist));
+                            pq.add(new Pair(neighbor.node, newDist));
                         }
                     }
                 }

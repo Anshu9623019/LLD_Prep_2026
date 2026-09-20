@@ -104,7 +104,35 @@ public class TreeTraversalQuestions {
         return 1 + Math.max(l,r);
     }
 
-
+//    Then the path through root is:
+//
+//    root.data + l + r
+//
+//    Now imagine:
+//
+//            10
+//            /
+//            -5
+//
+//    For -5:
+//
+//    maxSumDia(-5) = -5
+//
+//    So without Math.max(0, ...):
+//
+//    l = -5
+//
+//    root.data + l
+//= 10 + (-5)
+//        = 5
+//
+//    But why would we take -5?
+//
+//    We can simply choose the path:
+//
+//            10
+//
+//    whose sum is 10.
 
     public static int maxSumDia(Node root){
         if(root==null){
@@ -544,6 +572,8 @@ public class TreeTraversalQuestions {
     }
 
 
+
+    //VVI
     public static int maxWidth(Node root){
         if(root == null) return 0;
 
